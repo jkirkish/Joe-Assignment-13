@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.coderscampus.assignment13.domain.Account;
+import com.coderscampus.assignment13.domain.Address;
 import com.coderscampus.assignment13.domain.User;
 import com.coderscampus.assignment13.repository.AccountRepository;
 import com.coderscampus.assignment13.repository.UserRepository;
@@ -63,6 +64,22 @@ public class UserService {
 			user.getAccounts().add(savings);
 			accountRepo.save(checking);
 			accountRepo.save(savings);
+		}if(user.getAddress() == null) {
+			Address address = new Address();
+			address.setAddressLine1("");
+			address.setAddressLine2("");
+			address.setCity("");
+			address.setCountry("");
+			address.setRegion("");
+			address.setZipCode("");
+			address.setUser(user);
+			address.setUserId(user.getUserId());
+			user.setAddress(address);
+		} else {
+			Address address = user.getAddress();
+			address.setUser(user);
+			address.setUserId(user.getUserId());
+			user.setAddress(user.getAddress());
 		}
 		return userRepo.save(user);
 	}
