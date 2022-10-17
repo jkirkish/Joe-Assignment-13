@@ -53,6 +53,7 @@ public class UserService {
 
 	public User saveUser(User user) {
 		if (user.getUserId() == null) {
+			System.out.println("This is: " + (user.getUserId() == null));
 			Account checking = new Account();
 			checking.setAccountName("Checking Account");
 			checking.getUsers().add(user);
@@ -64,22 +65,24 @@ public class UserService {
 			user.getAccounts().add(savings);
 			accountRepo.save(checking);
 			accountRepo.save(savings);
-//		}if(user.getAddress() == null) {
-//			Address address = new Address();
-//			address.setAddressLine1("");
-//			address.setAddressLine2("");
-//			address.setCity("");
-//			address.setCountry("");
-//			address.setRegion("");
-//			address.setZipCode("");
-//			address.setUser(user);
-//			address.setUserId(user.getUserId());
-//			user.setAddress(address);
-//		} else {
-//			Address address = user.getAddress();
-//			address.setUser(user);
-//			address.setUserId(user.getUserId());
-//			user.setAddress(user.getAddress());
+	}if(user.getAddress() == null && user.getUserId() == null) {
+		Address address = new Address();
+		    user.setUserId(0L);
+			address.setAddressLine1("");
+			address.setAddressLine2("");
+			address.setCity("");
+			address.setCountry("");
+			address.setRegion("");
+			address.setZipCode("");
+			address.setUser(user);
+			address.setUserId((user.getUserId()+ 1L));
+			System.out.println("user.getUserId is: " + user.getUserId());
+			user.setAddress(address);
+		} else {
+			Address address = user.getAddress();
+			address.setUser(user);
+			address.setUserId(user.getUserId());
+			user.setAddress(user.getAddress());
 		}
 		return userRepo.save(user);
 	}
