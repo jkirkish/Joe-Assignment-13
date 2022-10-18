@@ -12,7 +12,6 @@ import com.coderscampus.assignment13.domain.Account;
 import com.coderscampus.assignment13.domain.Address;
 import com.coderscampus.assignment13.domain.User;
 import com.coderscampus.assignment13.repository.AccountRepository;
-import com.coderscampus.assignment13.repository.AddressRepository;
 import com.coderscampus.assignment13.repository.UserRepository;
 
 @Service
@@ -22,8 +21,6 @@ public class UserService {
 	private UserRepository userRepo;
 	@Autowired
 	private AccountRepository accountRepo;
-	@Autowired
-	private AddressRepository addressRepo;
 	
 	public List<User> findByUsername(String username) {
 		return userRepo.findByUsername(username);
@@ -68,9 +65,9 @@ public class UserService {
 			user.getAccounts().add(savings);
 			accountRepo.save(checking);
 			accountRepo.save(savings);
-	}if(user.getAddress() == null && user.getUserId() == null) {
+		}
+		if(user.getAddress()== null) {
 		Address address = new Address();
-		    user.setUserId(0L);
 			address.setAddressLine1("");
 			address.setAddressLine2("");
 			address.setCity("");
@@ -78,10 +75,9 @@ public class UserService {
 			address.setRegion("");
 			address.setZipCode("");
 			address.setUser(user);
-			address.setUserId((user.getUserId()+ 1L));
+			address.setUserId((user.getUserId()));
 			System.out.println("user.getUserId is: " + user.getUserId());
 			user.setAddress(address);
-			addressRepo.save(address);
 		} else {
 			Address address = user.getAddress();
 			address.setUser(user);

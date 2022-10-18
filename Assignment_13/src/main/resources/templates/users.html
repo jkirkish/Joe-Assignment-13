@@ -58,7 +58,7 @@
 				<a href="/users">Back</a>
 			</div>
 		</div>
-		
+	
 		<div th:unless="${#lists.size(users) == 1}" th:each="user : ${users}">
 		    <a th:href="@{/users/{userId}(userId=${user.userId})}" th:text="${user.userId}"></a><br/>
 			<span th:text="${user.username}"></span><br/>
