@@ -16,11 +16,11 @@ import com.coderscampus.assignment13.service.UserService;
 public class TransactionController {
 	
 	@Autowired
-	private TransactionService transactionService;
+	private TransactionService transService;
 	
 	@GetMapping("/checking")
 	public String getCheckingTransactions (ModelMap model) {
-		Set<Transaction> transactions = transactionService.findAll();
+		Set<Transaction> transactions = transService.findAll();
 		
 		model.put("transactions", transactions);
 		if (transactions.size() == 1) {
@@ -32,7 +32,7 @@ public class TransactionController {
 	
 	@GetMapping("/saving")
 	public String getSavingTransactions (ModelMap model) {
-		Set<Transaction> transactions = transactionService.findAll();
+		Set<Transaction> transactions = transService.findAll();
 		
 		model.put("transactions", transactions);
 		if (transactions.size() == 1) {
@@ -40,5 +40,17 @@ public class TransactionController {
 		}
 		
 		return "saving";
+	}
+	
+	@PostMapping("/transactions/{transactionId}")
+	public String postOneTransaction (Transaction transaction) {
+		transService.saveTransaction(transaction);
+		return "redirect:/transactions/"+transaction.transactionId();
+	}
+	
+	@PostMapping("/transactions/{transactionId}/delete")
+	public String deleteOneTransaction (@PathVariable Long transactionId) {
+		transService.delete(transactionId);
+		return "redirect:/transactions";
 	}
 }
